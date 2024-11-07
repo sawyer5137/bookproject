@@ -4,6 +4,8 @@ const cors = require("cors");
 
 const port = 8081;
 const userRoutes = require("./routes/user");
+const loginRoutes = require("./routes/login");
+const bookRoutes = require("./routes/books");
 
 //Middleware
 app.use(
@@ -17,6 +19,8 @@ app.use(express.json());
 
 //ROUTES
 app.use("/api/user", userRoutes);
+app.use("/api/login", loginRoutes);
+app.use("/api/books", bookRoutes);
 
 app.get("/", (req, res) => {
   res.send(

@@ -12,10 +12,31 @@ export function getUserById(id: number) {
     .catch(errorHandler);
 }
 
+export function getUsersBooksById(id: number) {
+  return axios
+    .get(API_URL + `user/${id}/books`)
+    .then((resp) => {
+      return resp.data;
+    })
+    .catch(errorHandler);
+}
+
 export function getAllBooks() {
   return axios
-    .get(API_URL)
+    .get(API_URL + "books")
     .then((resp) => resp.data)
+    .catch(errorHandler);
+}
+
+export function login(username: string, password: string) {
+  return axios
+    .post(API_URL + "login", {
+      username,
+      password,
+    })
+    .then(function (resp) {
+      return resp;
+    })
     .catch(errorHandler);
 }
 
