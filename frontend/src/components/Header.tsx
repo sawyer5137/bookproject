@@ -1,46 +1,87 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../CurrentUserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 const Header = () => {
-  const { user } = useContext(CurrentUserContext);
+  const { user, setUser } = useContext(CurrentUserContext);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
+  function toggleDropdown() {
+    setDropdownOpen(!dropdownOpen);
+  }
+
+  function handleLogout() {
+    setUser(null);
+    navigate("/");
+  }
+
+  const linkClasses = "block py-2 px-3 rounded hover:text-yellow-500";
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="bg-bluegray text-white">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1">
         <NavLink to="/" className="flex items-center">
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white ml-2">
+          <span className="self-center text-2xl font-semibold whitespace-nowrap ml-2">
             Sawyer's Book Website
           </span>
         </NavLink>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <div className="w-full md:block md:w-auto">
+          <ul className="font-medium flex flex-row p-4">
             <li>
-              <NavLink
-                to={"/all"}
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
+              <NavLink to={"/all"} className={linkClasses}>
                 All Books
               </NavLink>
             </li>
-            {user && (
+            <li>
+              <NavLink to={"/user/1"} className={linkClasses}>
+                Sawyer's Books
+              </NavLink>
+            </li>
+
+            {user ? (
+              <li className={linkClasses + " relative"}>
+                {/* Button to toggle dropdown */}
+                <button onClick={toggleDropdown} className="">
+                  My Account{" "}
+                  {user.roleId == 1 && (
+                    <span className="bg-yellow-500 px-1 rounded-lg text-blue-900 text-sm font-semibold">
+                      Admin
+                    </span>
+                  )}
+                </button>
+
+                {/* Dropdown Menu */}
+                {dropdownOpen && (
+                  <ul className="absolute mt-2 w-48 bg-bluegray border border-gray-700 rounded shadow-lg">
+                    <li className={linkClasses}>
+                      <NavLink
+                        to={`/user/${user.userId}`}
+                        className="block px-4 py-1 text-white hover:text-yellow-400"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Profile
+                      </NavLink>
+                    </li>
+
+                    <li className={linkClasses}>
+                      <button
+                        className="block px-4 py-1 text-white hover:text-yellow-400"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            ) : (
               <li>
-                <NavLink
-                  to={`/user/${user.userId}`}
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  {user.username}
+                <NavLink to={`/login`} className={linkClasses}>
+                  Login
                 </NavLink>
               </li>
             )}
-            <li>
-              <NavLink
-                to={`/login`}
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Login
-              </NavLink>
-            </li>
           </ul>
         </div>
       </div>

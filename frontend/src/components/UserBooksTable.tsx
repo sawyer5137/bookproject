@@ -1,7 +1,7 @@
 import { UserBook } from "../models";
 
 interface Props {
-  data: Array<UserBook>;
+  data: Array<UserBook> | null;
 }
 
 export const UserBooksTable = (Props: Props) => {
@@ -9,13 +9,13 @@ export const UserBooksTable = (Props: Props) => {
     book: UserBook;
     index: number;
   }
-  const defaultClasses: string = "border-2 p-3";
+  const defaultClasses: string = "border-y-2 p-3";
   const Row = ({ book, index }: RowProps) => {
     let rowClasses = "";
 
     // alternates background color for each row
     if (index % 2 === 0) {
-      rowClasses = defaultClasses + " bg-gray-100";
+      rowClasses = defaultClasses + " bg-gray-200";
     } else {
       rowClasses = defaultClasses;
     }
@@ -43,9 +43,8 @@ export const UserBooksTable = (Props: Props) => {
         </tr>
       </thead>
       <tbody>
-        {Props.data.map((book, i) => (
-          <Row key={i} book={book} index={i} />
-        ))}
+        {Props.data &&
+          Props.data.map((book, i) => <Row key={i} book={book} index={i} />)}
       </tbody>
     </table>
   );

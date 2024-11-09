@@ -1,6 +1,7 @@
 const express = require("express");
 const pool = require("../modules/pool");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
   const { username, password } = req.body;
@@ -20,19 +21,24 @@ router.post("/", async (req, res) => {
     }
 
     //checks if password for user matches
-    if (user.password !== password) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid username or password" });
-    }
+    bcrypt.compare(password, user.password, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: "Internal server error :'(" });
+      }
+      if (!result) {
+        return res
+          .status(401)
+          .json({ success: false, message: "Invalid username or password" });
+      }
 
-    delete user.password;
+      delete user.password;
 
-    //if username and password match, proceeds with login
-    return res.json({
-      success: true,
-      message: "Login successful 😊",
-      user: user,
+      //if username and password match, proceeds with login
+      return res.json({
+        success: true,
+        message: "Login successful 😊",
+        user: user,
+      });
     });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error :'(" });

@@ -1,8 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        bluegray: "#4B6584",
+      },
+    },
   },
   plugins: [],
 };

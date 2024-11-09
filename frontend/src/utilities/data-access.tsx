@@ -5,16 +5,31 @@ const API_URL = "http://localhost:8081/api/";
 
 export function getUserById(id: number) {
   return axios
-    .get(API_URL + `user/${id}`)
+    .get(`${API_URL}user/${id}`)
+    .then((resp) => resp.data)
+    .catch(errorHandler);
+}
+
+export function getUsersBooksById(id: number) {
+  return axios
+    .get(`${API_URL}user/${id}/books`)
+    .then((resp) => resp.data)
+    .catch(errorHandler);
+}
+export function removeUserBook(userId: number, bookId: number) {
+  return axios
+    .delete(`${API_URL}user/${userId}/books/${bookId}`)
     .then((resp) => {
       return resp.data;
     })
     .catch(errorHandler);
 }
 
-export function getUsersBooksById(id: number) {
+export function addUserBook(userId: number, bookId: number) {
   return axios
-    .get(API_URL + `user/${id}/books`)
+    .post(`${API_URL}user/${userId}/books`, {
+      bookId,
+    })
     .then((resp) => {
       return resp.data;
     })
@@ -23,18 +38,30 @@ export function getUsersBooksById(id: number) {
 
 export function getAllBooks() {
   return axios
-    .get(API_URL + "books")
+    .get(`${API_URL}books`)
     .then((resp) => resp.data)
     .catch(errorHandler);
 }
 
 export function login(username: string, password: string) {
   return axios
-    .post(API_URL + "login", {
+    .post(`${API_URL}login`, {
       username,
       password,
     })
     .then(function (resp) {
+      return resp;
+    })
+    .catch(errorHandler);
+}
+
+export function register(username: string, password: string) {
+  return axios
+    .post(`${API_URL}register`, {
+      username,
+      password,
+    })
+    .then((resp) => {
       return resp;
     })
     .catch(errorHandler);

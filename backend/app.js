@@ -6,6 +6,7 @@ const port = 8081;
 const userRoutes = require("./routes/user");
 const loginRoutes = require("./routes/login");
 const bookRoutes = require("./routes/books");
+const registerRoutes = require("./routes/register");
 
 //Middleware
 app.use(
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use("/api/user", userRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/books", bookRoutes);
+app.use("/api/register", registerRoutes);
 
 app.get("/", (req, res) => {
   res.send(

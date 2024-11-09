@@ -50,4 +50,39 @@ router.get("/:userId/books", async (req, res) => {
   }
 });
 
+router.post("/:userId/books", async (req, res) => {
+  const { userId } = req.params;
+  const { bookId } = req.body;
+
+  await pool.query(
+    `INSERT INTO user_books 
+                    (user_id, book_id, have_read, hard_cover, rating)
+                    VALUES
+                    (?, ?, 0, 0, 0)`,
+    [userId, bookId]
+  );
+  res.status(201).json({ message: "Book added to collection" });
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "An error occurred while adding the book" });
+  }
+});
+
+router.delete("/:userId/books/:bookId", async (req, res) => {
+  const { userId, bookId } = req.params;
+
+  try {
+    await pool.query(
+      `DELETE FROM user_books WHERE user_id = ? && book_id = ?`,
+      [userId, bookId]
+    );
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while removing the book" });
+  }
+});
+
 module.exports = router;

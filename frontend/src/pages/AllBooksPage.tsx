@@ -4,9 +4,10 @@ import { getAllBooks } from "../utilities/data-access";
 import { Book } from "../models";
 import { AllBooksTable } from "../components/AllBooksTable";
 import { SearchInput } from "../components/SearchInput";
+import { Helmet } from "react-helmet";
 
 export const AllBooksPage = () => {
-  const [data, setData] = useState<Book[] | null>(null);
+  const [tableData, setTableData] = useState<Book[] | null>(null);
   const [searchString, setSearchString] = useState<string>("");
   const [allBooks, setAllBooks] = useState<Book[]>([]);
 
@@ -20,13 +21,13 @@ export const AllBooksPage = () => {
   //changes data whenever the searchString is changed
   useEffect(() => {
     if (searchString) {
-      setData(() => {
-        return allBooks.filter((book) => {
-          return book.title.toLowerCase().includes(searchString.toLowerCase());
-        });
+      setTableData(() => {
+        return allBooks.filter((book) =>
+          book.title.toLowerCase().includes(searchString.toLowerCase())
+        );
       });
     } else {
-      setData(allBooks);
+      setTableData(allBooks);
     }
   }, [searchString, allBooks]);
 
@@ -35,12 +36,19 @@ export const AllBooksPage = () => {
   }
 
   return (
-    <MainLayout>
-      <div className="flex flex-col items-center">
-        <h3 className="text-2xl mt-3">All Books</h3>
-        <SearchInput handleChange={handleSearch} value={searchString} />
-        {data ? <AllBooksTable data={data} /> : <h3>Loading...</h3>}
-      </div>
-    </MainLayout>
+    <>
+      <Helmet>
+        <title>Sawyer's Book Site</title>
+      </Helmet>
+      <MainLayout>
+        <div className="flex flex-col items-center">
+          <div className="flex max-w-[60%] w-full justify-between m-5">
+            <h3 className="text-3xl mt-3">All Books</h3>
+            <SearchInput handleChange={handleSearch} value={searchString} />
+          </div>
+          {tableData ? <AllBooksTable data={tableData} /> : <h3>Loading...</h3>}
+        </div>
+      </MainLayout>
+    </>
   );
 };
