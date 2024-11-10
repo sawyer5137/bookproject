@@ -50,6 +50,24 @@ router.get("/:userId/books", async (req, res) => {
   }
 });
 
+router.put("/:userId/books/:bookId", async (req, res) => {
+  const { userId, bookId } = req.params;
+  const { rating, haveRead, hardCover } = req.body;
+
+  try {
+    await pool.query(
+      `UPDATE user_books 
+       SET rating = ?, have_read = ?, hard_cover = ? 
+       WHERE user_id = ? AND book_id = ?`,
+      [rating, haveRead, hardCover, userId, bookId]
+    );
+    res.status(200).json({ message: "User book updated successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error updating user book" });
+  }
+});
+
 router.post("/:userId/books", async (req, res) => {
   const { userId } = req.params;
   const { bookId } = req.body;

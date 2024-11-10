@@ -8,6 +8,7 @@ import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { UserPage } from "./pages/UserPage";
 import { RegisterPage } from "./pages/RegisterPage";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -23,6 +24,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
+      {/* Same as */}
+      <ToastContainer />
     </CurrentUserContext.Provider>
   );
 }

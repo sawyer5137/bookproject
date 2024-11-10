@@ -1,20 +1,28 @@
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import MainLayout from "../layouts/MainLayout";
-import { useEffect, useState } from "react";
-import { getUserById, getUsersBooksById } from "../utilities/data-access";
-import { User, UserBook } from "../models";
-import { UserBooksTable } from "../components/UserBooksTable";
 import { SearchInput } from "../components/SearchInput";
+import { UserBooksTable } from "../components/UserBooksTable";
+import MainLayout from "../layouts/MainLayout";
+import { User, UserBook } from "../models";
+import { getUserById, getUsersBooksById } from "../utilities/data-access";
+import { CurrentUserContext } from "../CurrentUserContext";
 
 export const UserPage = () => {
   const params = useParams();
-  const [user, setUser] = useState<User | null>(null);
+  const [pageUser, setPageUser] = useState<User | null>(null);
   const [userBooks, setUserBooks] = useState<UserBook[] | null>(null);
   const [tableData, setTableData] = useState<UserBook[] | null>(null);
   const [searchString, setSearchString] = useState("");
 
+  const { user: currentUser } = useContext(CurrentUserContext);
+
   function handleSearch(searchString: string) {
     setSearchString(searchString);
+  }
+
+  function formatDate(date: string) {
+    const index = date.indexOf("T");
+    return date.slice(0, index);
   }
 
   //fetches users and user's books. dependent on userId param
@@ -22,7 +30,7 @@ export const UserPage = () => {
     if (params.userId) {
       getUserById(parseInt(params.userId))
         .then((user) => {
-          setUser(user);
+          setPageUser(user);
         })
         .catch((error) => {
           console.error("Failed to fetch user:", error);
@@ -54,13 +62,28 @@ export const UserPage = () => {
   return (
     <>
       <MainLayout>
-        {user ? (
+        {pageUser && userBooks && pageUser.roleId ? (
           <div className="flex flex-col items-center">
             <div className="flex max-w-[60%] w-full justify-between m-5">
-              <h3 className="text-3xl mt-3">{`${user.username}'s books`}</h3>
+              <h3 className="text-3xl mt-3">{`${pageUser.username}'s books`}</h3>
               <SearchInput handleChange={handleSearch} value={searchString} />
             </div>
-            <UserBooksTable data={tableData} />
+            <div className="border-2 max-w-[60%] w-full flex justify-between px-5 text-lg font-medium bg-slate-50">
+              <div className="m-3">Total Books: {userBooks.length}</div>
+              <div className="m-3">
+                User Since: {formatDate(pageUser.createdAt)}
+              </div>
+              <div className="m-3">
+                User Role: {pageUser.roleId == 1 ? "Admin" : "User"}
+              </div>
+            </div>
+            {currentUser && (
+              <UserBooksTable
+                data={tableData}
+                isCurrentUser={pageUser.userId === currentUser.userId}
+                userId={currentUser.userId}
+              />
+            )}
           </div>
         ) : (
           <h2 className="flex flex-col item-center">User not found</h2>

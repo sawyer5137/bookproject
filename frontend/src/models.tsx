@@ -6,6 +6,7 @@ export type User = {
 };
 
 export type UserBook = {
+  id: number;
   title: string;
   author: string;
   have_read: boolean;

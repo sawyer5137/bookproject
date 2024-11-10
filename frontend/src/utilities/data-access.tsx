@@ -16,6 +16,24 @@ export function getUsersBooksById(id: number) {
     .then((resp) => resp.data)
     .catch(errorHandler);
 }
+
+export function changeUsersBook(
+  userId: number,
+  bookId: number,
+  rating: number,
+  haveRead: boolean,
+  hardCover: boolean
+) {
+  return axios
+    .put(`${API_URL}user/${userId}/books/${bookId}`, {
+      rating,
+      haveRead,
+      hardCover,
+    })
+    .then((resp) => resp.data)
+    .catch(errorHandler);
+}
+
 export function removeUserBook(userId: number, bookId: number) {
   return axios
     .delete(`${API_URL}user/${userId}/books/${bookId}`)

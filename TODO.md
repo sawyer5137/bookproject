@@ -1,7 +1,5 @@
-- add changing your book collection data
-
+- settings page for changing passwords
 - add forms for entering new books/authors/publishers
 - encryption for passwords
-- books page
-- restyle login page
+- page for each book
 - make mobile reactive
