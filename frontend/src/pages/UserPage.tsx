@@ -25,6 +25,8 @@ export const UserPage = () => {
     return date.slice(0, index);
   }
 
+  console.log(params.userId);
+
   //fetches users and user's books. dependent on userId param
   useEffect(() => {
     if (params.userId) {
@@ -77,13 +79,14 @@ export const UserPage = () => {
                 User Role: {pageUser.roleId == 1 ? "Admin" : "User"}
               </div>
             </div>
-            {currentUser && (
-              <UserBooksTable
-                data={tableData}
-                isCurrentUser={pageUser.userId === currentUser.userId}
-                userId={currentUser.userId}
-              />
-            )}
+
+            <UserBooksTable
+              data={tableData}
+              isCurrentUser={
+                currentUser ? pageUser.userId === currentUser.userId : false
+              }
+              userId={currentUser ? currentUser.userId : null}
+            />
           </div>
         ) : (
           <h2 className="flex flex-col item-center">User not found</h2>

@@ -1,5 +1,4 @@
 - settings page for changing passwords
 - add forms for entering new books/authors/publishers
-- encryption for passwords
 - page for each book
 - make mobile reactive

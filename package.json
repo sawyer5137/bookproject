@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "dotenv-cli": "^7.4.4"
+  }
+}

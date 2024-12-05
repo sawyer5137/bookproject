@@ -6,7 +6,7 @@ import { changeUsersBook } from "../utilities/data-access";
 interface Props {
   data: Array<UserBook> | null;
   isCurrentUser: boolean;
-  userId: number;
+  userId: number | null;
 }
 
 export const UserBooksTable = (Props: Props) => {
@@ -19,18 +19,21 @@ export const UserBooksTable = (Props: Props) => {
 
   function handleApply() {
     if (modalBook) {
-      changeUsersBook(
-        Props.userId,
-        modalBook.id,
-        modalBookRating,
-        modalBookRead,
-        modalBookHardCover
-      );
+      if (Props.userId !== null) {
+        changeUsersBook(
+          Props.userId,
+          modalBook.id,
+          modalBookRating,
+          modalBookRead,
+          modalBookHardCover
+        );
+      }
       setModalOpen(false);
       setModalBook(null);
     }
   }
 
+  /* ----------------------------------------- Row Component ----------------------------------------- */
   interface RowProps {
     book: UserBook;
     index: number;
@@ -75,7 +78,7 @@ export const UserBooksTable = (Props: Props) => {
       </tr>
     );
   };
-
+  /* ----------------------------------------- Row Component ----------------------------------------- */
   return (
     <>
       <table className="w-full max-w-[60%] m-3">
@@ -94,7 +97,7 @@ export const UserBooksTable = (Props: Props) => {
         </tbody>
       </table>
 
-      {/* modal window for editting books */}
+      {/* modal window for editing books */}
       {modalBook && (
         <Modal isOpen={modalOpen}>
           <div className="flex flex-col items-center text-lg gap-5">

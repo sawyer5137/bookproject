@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
-const port = 8081;
 const userRoutes = require("./routes/user");
 const loginRoutes = require("./routes/login");
 const bookRoutes = require("./routes/books");
@@ -30,6 +29,6 @@ app.get("/", (req, res) => {
   );
 });
 
-const server = app.listen(port, () => {
-  console.log(`Listening for requests on port: ${port}`);
+const server = app.listen(process.env.PORT, () => {
+  console.log(`Listening for requests on port: ${process.env.PORT}`);
 });

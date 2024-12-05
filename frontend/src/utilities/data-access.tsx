@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AxiosError } from "axios";
 
-const API_URL = "http://localhost:8081/api/";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 export function getUserById(id: number) {
   return axios
