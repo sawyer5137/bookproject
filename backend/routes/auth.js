@@ -52,6 +52,16 @@ router.post("/login", async (req, res) => {
   }
 });
 
+app.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Logout failed" });
+    }
+    res.clearCookie("connect.sid");
+    res.json({ message: "Logged out successfully" });
+  });
+});
+
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
 

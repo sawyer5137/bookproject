@@ -97,6 +97,13 @@ export function checkSession() {
     .catch(errorHandler);
 }
 
+export function logout() {
+  return instance
+    .post(`${API_URL}auth/logout`)
+    .then((resp) => resp)
+    .catch(errorHandler);
+}
+
 function errorHandler(err: AxiosError) {
   if (err.response) {
     console.log(err.response.data);

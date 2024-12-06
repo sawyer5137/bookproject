@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext, useState } from "react";
+import { logout } from "../utilities/data-access";
 
 const Header = () => {
   const { user, setUser } = useContext(CurrentUserContext);
@@ -12,10 +13,15 @@ const Header = () => {
   }
 
   function handleLogout() {
-    setUser(null);
-    navigate("/");
+    logout()
+      .then(() => {
+        setUser(null);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Logout failed:", error);
+      });
   }
-
   const linkClasses = "block py-2 px-3 rounded hover:text-yellow-500";
 
   return (
