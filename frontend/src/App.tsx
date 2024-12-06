@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { CurrentUserContext } from "./CurrentUserContext";
@@ -8,10 +8,18 @@ import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { UserPage } from "./pages/UserPage";
 import { RegisterPage } from "./pages/RegisterPage";
-import { ToastContainer } from "react-toastify";
+import { checkSession } from "./utilities/data-access";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    if (currentUser === null) {
+      checkSession().then((resp) => {
+        setCurrentUser(resp.user);
+      });
+    }
+  });
 
   return (
     <CurrentUserContext.Provider
@@ -24,8 +32,6 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
-      {/* Same as */}
-      <ToastContainer />
     </CurrentUserContext.Provider>
   );
 }

@@ -25,8 +25,6 @@ export const UserPage = () => {
     return date.slice(0, index);
   }
 
-  console.log(params.userId);
-
   //fetches users and user's books. dependent on userId param
   useEffect(() => {
     if (params.userId) {

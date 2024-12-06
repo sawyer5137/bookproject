@@ -1,10 +1,15 @@
 import axios from "axios";
 import { AxiosError } from "axios";
 
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+// const API_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = "/api/";
+
+const instance = axios.create({
+  withCredentials: true,
+});
 
 export function getUserById(id: number) {
-  return axios
+  return instance
     .get(`${API_URL}user/${id}`)
     .then((resp) => resp.data)
     .catch(errorHandler);
@@ -24,7 +29,7 @@ export function changeUsersBook(
   haveRead: boolean,
   hardCover: boolean
 ) {
-  return axios
+  return instance
     .put(`${API_URL}user/${userId}/books/${bookId}`, {
       rating,
       haveRead,
@@ -35,7 +40,7 @@ export function changeUsersBook(
 }
 
 export function removeUserBook(userId: number, bookId: number) {
-  return axios
+  return instance
     .delete(`${API_URL}user/${userId}/books/${bookId}`)
     .then((resp) => {
       return resp.data;
@@ -44,7 +49,7 @@ export function removeUserBook(userId: number, bookId: number) {
 }
 
 export function addUserBook(userId: number, bookId: number) {
-  return axios
+  return instance
     .post(`${API_URL}user/${userId}/books`, {
       bookId,
     })
@@ -55,15 +60,15 @@ export function addUserBook(userId: number, bookId: number) {
 }
 
 export function getAllBooks() {
-  return axios
+  return instance
     .get(`${API_URL}books`)
     .then((resp) => resp.data)
     .catch(errorHandler);
 }
 
 export function login(username: string, password: string) {
-  return axios
-    .post(`${API_URL}login`, {
+  return instance
+    .post(`${API_URL}auth/login`, {
       username,
       password,
     })
@@ -74,14 +79,21 @@ export function login(username: string, password: string) {
 }
 
 export function register(username: string, password: string) {
-  return axios
-    .post(`${API_URL}register`, {
+  return instance
+    .post(`${API_URL}auth/register`, {
       username,
       password,
     })
     .then((resp) => {
       return resp;
     })
+    .catch(errorHandler);
+}
+
+export function checkSession() {
+  return instance
+    .get(`${API_URL}auth/check-session`)
+    .then((resp) => resp.data)
     .catch(errorHandler);
 }
 

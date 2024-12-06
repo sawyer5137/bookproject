@@ -12,6 +12,8 @@ export const AllBooksTable = (Props: Props) => {
   const { user } = useContext(CurrentUserContext);
   const [usersBooks, setUsersBooks] = useState<number[]>([]);
 
+  console.log("CURRENT USER", user);
+
   useEffect(() => {
     if (user) {
       getUsersBooksById(user?.userId)

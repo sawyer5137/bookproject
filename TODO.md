@@ -1,3 +1,4 @@
+- improve welcome page
 - settings page for changing passwords
 - add forms for entering new books/authors/publishers
 - page for each book

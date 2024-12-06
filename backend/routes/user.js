@@ -1,6 +1,7 @@
 const express = require("express");
 const pool = require("../modules/pool");
 const router = express.Router();
+const validateAccess = require("../middleware/userAccess");
 
 //getUserByID
 router.get("/:userId", async (req, res) => {
@@ -50,7 +51,8 @@ router.get("/:userId/books", async (req, res) => {
   }
 });
 
-router.put("/:userId/books/:bookId", async (req, res) => {
+//update a users book
+router.put("/:userId/books/:bookId", validateAccess, async (req, res) => {
   const { userId, bookId } = req.params;
   const { rating, haveRead, hardCover } = req.body;
 
@@ -68,7 +70,8 @@ router.put("/:userId/books/:bookId", async (req, res) => {
   }
 });
 
-router.post("/:userId/books", async (req, res) => {
+//add book to users collection
+router.post("/:userId/books", validateAccess, async (req, res) => {
   const { userId } = req.params;
   const { bookId } = req.body;
 
@@ -87,7 +90,8 @@ router.post("/:userId/books", async (req, res) => {
   }
 });
 
-router.delete("/:userId/books/:bookId", async (req, res) => {
+//remove a book from user collection
+router.delete("/:userId/books/:bookId", validateAccess, async (req, res) => {
   const { userId, bookId } = req.params;
 
   try {
