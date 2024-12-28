@@ -30,8 +30,6 @@ app.use(
 
 app.use(express.json());
 
-app.use(express.json());
-
 //ROUTES
 app.use("/api/user", require("./routes/user"));
 app.use("/api/auth", require("./routes/auth"));
