@@ -38,7 +38,7 @@ export const AllBooksPage = () => {
   return (
     <>
       <Helmet>
-        <title>Sawyer's Book Site</title>
+        <title>All Books</title>
       </Helmet>
       <MainLayout>
         <div className="flex flex-col items-center">

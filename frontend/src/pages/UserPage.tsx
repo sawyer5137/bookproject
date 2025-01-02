@@ -6,6 +6,7 @@ import MainLayout from "../layouts/MainLayout";
 import { User, UserBook } from "../models";
 import { getUserById, getUsersBooksById } from "../utilities/data-access";
 import { CurrentUserContext } from "../CurrentUserContext";
+import { Helmet } from "react-helmet";
 
 export const UserPage = () => {
   const params = useParams();
@@ -61,6 +62,9 @@ export const UserPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{pageUser?.username + "'s Books"}</title>
+      </Helmet>
       <MainLayout>
         {pageUser && userBooks && pageUser.roleId ? (
           <div className="flex flex-col items-center">
