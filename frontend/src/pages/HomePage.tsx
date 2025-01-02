@@ -22,7 +22,7 @@ export const HomePage = () => {
             Welcome to Sawyer's Book Website – your personal library companion!
             Here, you can explore our extensive database of books, track your
             collection, and add new favorites to your shelves. Discover,
-            collect, and mark your reads – all in one place!"
+            collect, and mark your reads – all in one place!
           </h2>
           {!user && (
             <button

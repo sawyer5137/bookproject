@@ -54,7 +54,7 @@ export const UserBooksTable = (Props: Props) => {
       <tr className="border-2">
         <td className={rowClasses}>{book.title}</td>
         <td className={rowClasses}>{book.author}</td>
-        <td className={rowClasses}>{book.rating}</td>
+        <td className={rowClasses}>{book.have_read ? book.rating : "-"}</td>
         <td className={rowClasses}>{book.have_read ? "Yes" : "No"}</td>
         <td className={rowClasses}>{book.hard_cover ? "Yes" : "No"}</td>
         <td className={rowClasses}>

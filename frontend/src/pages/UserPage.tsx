@@ -91,7 +91,9 @@ export const UserPage = () => {
             />
           </div>
         ) : (
-          <h2 className="flex flex-col item-center">User not found</h2>
+          <h2 className="flex flex-col item-center">
+            <div>User not found</div>
+          </h2>
         )}
       </MainLayout>
     </>
