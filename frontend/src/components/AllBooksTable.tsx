@@ -67,7 +67,7 @@ export const AllBooksTable = (Props: Props) => {
           <td className={rowClasses + " text-center"} onClick={handleClick}>
             <button
               className={
-                "px-2 py-1 rounded-md " +
+                "px-2 py-1 rounded-md min-w-full " +
                 (bookOwned ? "bg-white " : "bg-yellow-400")
               }
             >
